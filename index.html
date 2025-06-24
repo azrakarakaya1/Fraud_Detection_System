@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fraud Detection System - Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1710d0 0%, #2fbaec 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2d3748;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 100%;
+            max-width: 400px;
+            margin: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1710d0 0%, #2fbaec 100%);
+            color: white;
+            text-align: center;
+            padding: 40px 30px;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .form-container {
+            padding: 40px 30px;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 30px;
+            background: #f7fafc;
+            border-radius: 12px;
+            padding: 4px;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            color: #718096;
+        }
+
+        .tab-button.active {
+            background: white;
+            color: #1710d0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .form-section {
+            display: none;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #4a5568;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f7fafc;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #1710d0;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn {
+            width: 100%;
+            background: linear-gradient(135deg, #1710d0 0%, #2fbaec 100%);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .message {
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .success {
+            background: #c6f6d5;
+            border: 1px solid #9ae6b4;
+            color: #22543d;
+        }
+
+        .error {
+            background: #fed7d7;
+            border: 1px solid #feb2b2;
+            color: #742a2a;
+        }
+
+        .info {
+            background: #bee3f8;
+            border: 1px solid #90cdf4;
+            color: #2a4365;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .password-hint {
+            font-size: 12px;
+            color: #718096;
+            margin-top: 5px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .demo-info {
+            background: #e6fffa;
+            border: 1px solid #81e6d9;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #234e52;
+        }
+
+        .demo-info h4 {
+            margin-bottom: 8px;
+            color: #234e52;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                margin: 10px;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .form-container {
+                padding: 30px 20px;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Fraud Detection</h1>
+            <p>Secure Transaction Monitoring</p>
+        </div>
+        
+        <div class="form-container">
+            <div class="tabs">
+                <button class="tab-button active" data-tab="login">Login</button>
+                <button class="tab-button" data-tab="register">Register</button>
+            </div>
+
+            <!-- Login Form -->
+            <div id="login" class="form-section active">
+                <div class="demo-info">
+                    <h4>🚀 Welcome!</h4>
+                    <p>Login using a registered account or create a new account from register tab above</p>
+                </div>
+                
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="loginUserID">User ID</label>
+                        <input type="text" id="loginUserID" name="userID" placeholder="Enter your User ID" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" name="password" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="btn" id="loginBtn">
+                        Sign In
+                    </button>
+                </form>
+                
+                <div id="loginMessage"></div>
+            </div>
+
+            <!-- Register Form -->
+            <div id="register" class="form-section">
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label for="registerUserID">User ID</label>
+                        <input type="text" id="registerUserID" name="userID" placeholder="Choose a unique User ID" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="registerName">Full Name</label>
+                            <input type="text" id="registerName" name="userName" placeholder="Your full name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="registerPhone">Phone</label>
+                            <input type="tel" id="registerPhone" name="userPhone" placeholder="+90 XXX XXX XXXX" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerEmail">Email</label>
+                        <input type="email" id="registerEmail" name="userEmail" placeholder="your.email@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPassword">Password</label>
+                        <input type="password" id="registerPassword" name="userPassword" placeholder="Create a password" required>
+                        <div class="password-hint">No restrictions for the password</div>
+                    </div>
+                    <button type="submit" class="btn" id="registerBtn">
+                        Create Account
+                    </button>
+                </form>
+                
+                <div id="registerMessage"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // FIXED API Configuration - Using correct base path
+        const API_BASE_URL = (() => {
+            const currentHost = window.location.host;
+            const currentPath = window.location.pathname;
+            
+            console.log('🔧 Current URL:', window.location.href);
+            console.log('🔧 Current Path:', currentPath);
+            
+            if (window.location.protocol === 'file:') {
+                return 'http://localhost/fraud_detection_system/api.php';
+            }
+            
+            if (currentHost.includes('localhost') || currentHost.includes('127.0.0.1')) {
+                // Extract the base folder from the current path
+                const pathParts = currentPath.split('/');
+                // Remove the last part (filename) and get the folder path
+                const basePath = pathParts.slice(0, -1).join('/');
+                const apiUrl = `${window.location.protocol}//${currentHost}${basePath}/api.php`;
+                console.log('🔧 Detected API URL:', apiUrl);
+                return apiUrl;
+            }
+            
+            return 'http://localhost/fraud_detection_system/api.php';
+        })();
+
+        console.log('✅ Final API URL:', API_BASE_URL);
+
+        // Enhanced API Helper Function with better error handling
+        async function apiCall(endpoint, method = 'GET', data = null) {
+            const config = {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            };
+
+            if (data) {
+                config.body = JSON.stringify(data);
+            }
+
+            try {
+                const fullUrl = `${API_BASE_URL}/${endpoint}`;
+                console.log('🌐 Making API call:', method, fullUrl);
+                console.log('📤 Request data:', data);
+                
+                const response = await fetch(fullUrl, config);
+                
+                console.log('📡 Response status:', response.status);
+                console.log('📡 Response URL:', response.url);
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('❌ Response error:', errorText);
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const result = await response.json();
+                console.log('✅ API Response:', result);
+                return result;
+            } catch (error) {
+                console.error('❌ API Error:', error);
+                
+                // Enhanced error handling
+                if (error.name === 'TypeError' && error.message.includes('fetch')) {
+                    throw new Error('Cannot connect to server. Please check if your web server is running.');
+                }
+                
+                throw error;
+            }
+        }
+
+        // Tab Management
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const formSections = document.querySelectorAll('.form-section');
+            
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const tabName = this.getAttribute('data-tab');
+                    
+                    // Update active tab button
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Update active form section
+                    formSections.forEach(section => section.classList.remove('active'));
+                    document.getElementById(tabName).classList.add('active');
+                    
+                    // Clear messages
+                    clearMessages();
+                });
+            });
+
+            // Auto-generate User ID for registration
+            document.getElementById('registerUserID').addEventListener('focus', function() {
+                if (!this.value) {
+                    const randomNum = Math.floor(Math.random() * 9000) + 1000;
+                    this.value = 'U' + randomNum;
+                }
+            });
+
+            // Test API connection on page load
+            testAPIConnection();
+        });
+
+        // Test API connection
+        async function testAPIConnection() {
+            try {
+                console.log('🧪 Testing API connection...');
+                const response = await fetch(API_BASE_URL);
+                const data = await response.json();
+                console.log('✅ API Test successful:', data);
+            } catch (error) {
+                console.error('❌ API Test failed:', error);
+            }
+        }
+
+        // Login Form Handler
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const loginBtn = document.getElementById('loginBtn');
+            const messageDiv = document.getElementById('loginMessage');
+            const formData = new FormData(this);
+            const loginData = Object.fromEntries(formData);
+            
+            // Show loading state
+            loginBtn.innerHTML = '<span class="loading"></span>Signing In...';
+            loginBtn.disabled = true;
+            messageDiv.innerHTML = '';
+            
+            try {
+                // First, try to get user data to verify credentials
+                const users = await apiCall('users');
+                
+                if (!users.success) {
+                    throw new Error('Unable to connect to authentication service');
+                }
+                
+                // Find user with matching credentials
+                const user = users.data.find(u => 
+                    u.UserID === loginData.userID
+                );
+                
+                if (!user) {
+                    throw new Error('Invalid User ID. Please check your credentials or register a new account.');
+                }
+                
+                // Store user session in BOTH sessionStorage and localStorage
+                const userSession = {
+                    userID: user.UserID,
+                    name: user.Name,
+                    email: user.Email,
+                    loginTime: new Date().toISOString()
+                };
+                
+                sessionStorage.setItem('currentUser', JSON.stringify(userSession));
+                localStorage.setItem('currentUser', user.UserID);
+                
+                // Show success message
+                messageDiv.innerHTML = `
+                    <div class="message success">
+                        ✅ Login successful! Welcome back, ${user.Name}!
+                    </div>
+                `;
+                
+                // Redirect to dashboard after short delay
+                setTimeout(() => {
+                    window.location.href = `dashboard.html?user=${user.UserID}`;
+                }, 1500);
+                
+            } catch (error) {
+                messageDiv.innerHTML = `
+                    <div class="message error">
+                        ❌ ${error.message}
+                    </div>
+                `;
+                
+                loginBtn.innerHTML = 'Sign In';
+                loginBtn.disabled = false;
+            }
+        });
+
+        // Register Form Handler
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const registerBtn = document.getElementById('registerBtn');
+            const messageDiv = document.getElementById('registerMessage');
+            const formData = new FormData(this);
+            const registerData = Object.fromEntries(formData);
+            
+            // Show loading state
+            registerBtn.innerHTML = '<span class="loading"></span>Creating Account...';
+            registerBtn.disabled = true;
+            messageDiv.innerHTML = '';
+            
+            console.log('🚀 Attempting to register user:', registerData);
+            
+            try {
+                const result = await apiCall('users', 'POST', registerData);
+                
+                console.log('📝 Registration response:', result);
+                
+                if (result.success) {
+                    // Store user session in BOTH sessionStorage and localStorage
+                    const userSession = {
+                        userID: registerData.userID,
+                        name: registerData.userName,
+                        email: registerData.userEmail,
+                        loginTime: new Date().toISOString()
+                    };
+                    
+                    sessionStorage.setItem('currentUser', JSON.stringify(userSession));
+                    localStorage.setItem('currentUser', registerData.userID);
+                    
+                    messageDiv.innerHTML = `
+                        <div class="message success">
+                            ✅ Account created successfully! Welcome, ${registerData.userName}!
+                        </div>
+                    `;
+                    
+                    // Redirect to dashboard after short delay
+                    setTimeout(() => {
+                        window.location.href = `dashboard.html?user=${registerData.userID}`;
+                    }, 1500);
+                } else {
+                    throw new Error(result.error || 'Registration failed');
+                }
+                
+            } catch (error) {
+                console.error('💥 Registration error:', error);
+                
+                let errorMessage = error.message;
+                
+                // Handle common errors with user-friendly messages
+                if (errorMessage.includes('already exists')) {
+                    errorMessage = 'This User ID or Email is already registered. Please choose different credentials or try logging in.';
+                } else if (errorMessage.includes('fetch') || errorMessage.includes('404')) {
+                    errorMessage = 'Unable to connect to the server. Please check your connection and try again.';
+                } else if (errorMessage.includes('500')) {
+                    errorMessage = 'Server error. Please try again later.';
+                }
+                
+                messageDiv.innerHTML = `
+                    <div class="message error">
+                        ❌ ${errorMessage}
+                    </div>
+                `;
+                
+                registerBtn.innerHTML = 'Create Account';
+                registerBtn.disabled = false;
+            }
+        });
+
+        function clearMessages() {
+            document.getElementById('loginMessage').innerHTML = '';
+            document.getElementById('registerMessage').innerHTML = '';
+        }
+
+        // Check if user is already logged in
+        window.addEventListener('load', function() {
+            const currentUser = sessionStorage.getItem('currentUser') || localStorage.getItem('currentUser');
+            if (currentUser) {
+                try {
+                    let userID;
+                    if (currentUser.startsWith('{')) {
+                        // JSON format
+                        const user = JSON.parse(currentUser);
+                        userID = user.userID;
+                        const loginTime = new Date(user.loginTime);
+                        const now = new Date();
+                        
+                        // Check if login is still valid (24 hours)
+                        if (now - loginTime > 24 * 60 * 60 * 1000) {
+                            // Session expired, clear it
+                            sessionStorage.removeItem('currentUser');
+                            localStorage.removeItem('currentUser');
+                            return;
+                        }
+                    } else {
+                        // Simple string format
+                        userID = currentUser;
+                    }
+                    
+                    // User is still logged in, redirect to dashboard
+                    window.location.href = `dashboard.html?user=${userID}`;
+                } catch (e) {
+                    // Invalid session data, clear it
+                    sessionStorage.removeItem('currentUser');
+                    localStorage.removeItem('currentUser');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
