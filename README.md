@@ -16,9 +16,9 @@ provides a solid base for future improvements like machine learning and mobile i
 
 ## Login Page
 
-![Result](login.png)
+![Result](images/login.png)
 
 
 ## Dashboard Tab
 
-![Result](dashboard.png)
+![Result](images/dashboard.png)
