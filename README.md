@@ -12,3 +12,13 @@ The project combines database design, backend logic, and user interface developm
 using PHP and MySQL, with a responsive frontend created in HTML, CSS, and JavaScript. The system 
 provides a solid base for future improvements like machine learning and mobile integration.
 
+---
+
+## Login Page
+
+![Result](login.png)
+
+
+## Dashboard Tab
+
+![Result](dashboard.png)
