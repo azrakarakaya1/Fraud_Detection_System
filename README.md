@@ -22,3 +22,4 @@ provides a solid base for future improvements like machine learning and mobile i
 ## Dashboard Tab
 
 ![Result](./images/dashboard.png)
+ 
